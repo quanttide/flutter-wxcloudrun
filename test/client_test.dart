@@ -16,7 +16,7 @@ void main() {
   group('APIClient测试', () {
     WXCloudRunAPIClient apiClient = MockWXCloudRunAPIClient();
     test('正常请求', () async {
-      http.StreamedResponse response = await apiClient.requestAPI('GET', 'api.example.com', 'path');
+      http.Response response = await apiClient.requestAPI('GET', 'api.example.com', 'path');
     });
     test('冷启动', () async {
 

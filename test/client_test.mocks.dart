@@ -20,8 +20,7 @@ import 'package:mockito/mockito.dart' as _i1;
 
 class _FakeClient_0 extends _i1.Fake implements _i2.Client {}
 
-class _FakeStreamedResponse_1 extends _i1.Fake implements _i2.StreamedResponse {
-}
+class _FakeResponse_1 extends _i1.Fake implements _i2.Response {}
 
 /// A class which mocks [WXCloudRunAPIClient].
 ///
@@ -40,13 +39,12 @@ class MockWXCloudRunAPIClient extends _i1.Mock
       super.noSuchMethod(Invocation.setter(#client, _client),
           returnValueForMissingStub: null);
   @override
-  _i4.Future<_i2.StreamedResponse> requestAPI(
+  _i4.Future<_i2.Response> requestAPI(
           String? method, String? apiRoot, String? apiPath,
           {Map<String, dynamic>? queryParameters}) =>
       (super.noSuchMethod(
               Invocation.method(#requestAPI, [method, apiRoot, apiPath],
                   {#queryParameters: queryParameters}),
-              returnValue:
-                  Future<_i2.StreamedResponse>.value(_FakeStreamedResponse_1()))
-          as _i4.Future<_i2.StreamedResponse>);
+              returnValue: Future<_i2.Response>.value(_FakeResponse_1()))
+          as _i4.Future<_i2.Response>);
 }

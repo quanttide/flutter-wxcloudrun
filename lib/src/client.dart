@@ -15,13 +15,13 @@ class WXCloudRunAPIClient {
   http.Client client = RetryClient(http.Client());
 
   /// 请求服务API
-  Future<http.StreamedResponse> requestAPI(String method,
+  Future<http.Response> requestAPI(String method,
       String apiRoot, String apiPath, {Map<String, dynamic>? queryParameters}
       ) async {
     http.Request request = http.Request(method,
         Uri.https(apiRoot, apiPath, queryParameters),
     );
-    http.StreamedResponse response = await client.send(request);
+    http.Response response = (await client.send(request)) as http.Response;
     return response;
   }
 }
