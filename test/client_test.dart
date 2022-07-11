@@ -14,9 +14,9 @@ import 'client_test.mocks.dart';
 @GenerateMocks([WXCloudRunAPIClient])
 void main() {
   group('APIClient测试', () {
-    WXCloudRunAPIClient apiClient = MockWXCloudRunAPIClient();
+    WXCloudRunAPIClient apiClient = MockWXCloudRunAPIClient(apiRoot: 'api.example.com');
     test('正常请求', () async {
-      http.Response response = await apiClient.requestAPI('GET', 'api.example.com', 'path');
+      http.Response response = await apiClient.requestAPI('GET', 'path');
     });
     test('冷启动', () async {
 

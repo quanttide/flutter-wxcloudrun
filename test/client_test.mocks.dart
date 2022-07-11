@@ -20,17 +20,37 @@ import 'package:mockito/mockito.dart' as _i1;
 
 class _FakeClient_0 extends _i1.Fake implements _i2.Client {}
 
-class _FakeResponse_1 extends _i1.Fake implements _i2.Response {}
-
 /// A class which mocks [WXCloudRunAPIClient].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockWXCloudRunAPIClient extends _i1.Mock
     implements _i3.WXCloudRunAPIClient {
-  MockWXCloudRunAPIClient() {
+  MockWXCloudRunAPIClient({required String apiRoot}) {
     _i1.throwOnMissingStub(this);
   }
 
+  @override
+  String get apiRoot =>
+      (super.noSuchMethod(Invocation.getter(#apiRoot), returnValue: '')
+          as String);
+  @override
+  set apiRoot(String? _apiRoot) =>
+      super.noSuchMethod(Invocation.setter(#apiRoot, _apiRoot),
+          returnValueForMissingStub: null);
+  @override
+  String get format =>
+      (super.noSuchMethod(Invocation.getter(#format), returnValue: '')
+          as String);
+  @override
+  set format(String? _format) =>
+      super.noSuchMethod(Invocation.setter(#format, _format),
+          returnValueForMissingStub: null);
+  @override
+  bool get raw =>
+      (super.noSuchMethod(Invocation.getter(#raw), returnValue: false) as bool);
+  @override
+  set raw(bool? _raw) => super.noSuchMethod(Invocation.setter(#raw, _raw),
+      returnValueForMissingStub: null);
   @override
   _i2.Client get client => (super.noSuchMethod(Invocation.getter(#client),
       returnValue: _FakeClient_0()) as _i2.Client);
@@ -39,12 +59,13 @@ class MockWXCloudRunAPIClient extends _i1.Mock
       super.noSuchMethod(Invocation.setter(#client, _client),
           returnValueForMissingStub: null);
   @override
-  _i4.Future<_i2.Response> requestAPI(
-          String? method, String? apiRoot, String? apiPath,
+  _i4.Future<dynamic> requestAPI(String? method, String? apiPath,
           {Map<String, dynamic>? queryParameters}) =>
       (super.noSuchMethod(
-              Invocation.method(#requestAPI, [method, apiRoot, apiPath],
-                  {#queryParameters: queryParameters}),
-              returnValue: Future<_i2.Response>.value(_FakeResponse_1()))
-          as _i4.Future<_i2.Response>);
+          Invocation.method(#requestAPI, [method, apiPath],
+              {#queryParameters: queryParameters}),
+          returnValue: Future<dynamic>.value()) as _i4.Future<dynamic>);
+  @override
+  dynamic parseResponse(_i2.Response? response) =>
+      super.noSuchMethod(Invocation.method(#parseResponse, [response]));
 }
