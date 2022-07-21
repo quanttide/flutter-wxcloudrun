@@ -3,48 +3,45 @@
 /// Mock方案: https://pub.dev/packages/mockito
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
-import 'package:mockito/annotations.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter_wxcloudrun/src/client.dart';
-import 'client_test.mocks.dart';
+import 'mock.dart';
 
 
-@GenerateMocks([WXCloudRunAPIClient])
 void main() {
   group('APIClient测试', () {
-    WXCloudRunAPIClient apiClient = MockWXCloudRunAPIClient(apiRoot: 'api.example.com');
-
+    // 打桩
+    WXCloudRunAPIClient apiClient = WXCloudRunAPIClient(
+        mock: true,
+        mockClientHandler: mockClientHandler
+    );
     test('正常请求', () async {
-      // 打桩
-      when(apiClient.requestAPI('GET', '/path')).thenAnswer(
-              (_) async => http.Response('OK', 200)
+      http.StreamedResponse response = await apiClient.requestAPI(
+          httpMethod: 'GET',
+          apiRoot: 'api.example.com',
+          apiPath: '/path'
       );
-      // 测试
-      http.Response response = await apiClient.requestAPI('GET', '/path');
       expect(response.statusCode, 200);
-      expect(response.body, 'OK');
+      // expect(response.stream, 'OK');
     });
     test('冷启动', () async {
-      // 打桩
-      when(apiClient.requestAPI('GET', '/path')).thenAnswer(
-              (_) async => http.Response('Cold Starting', 503)
+      http.StreamedResponse response = await apiClient.requestAPI(
+          httpMethod: 'GET',
+          apiRoot: 'api.example.com',
+          apiPath: '/cold_start'
       );
-      // 测试
-      http.Response response = await apiClient.requestAPI('GET', '/path');
       expect(response.statusCode, 503);
-      expect(response.body, 'Cold Starting');
+      // expect(response.stream, 'Cold Starting');
     });
     test('请求失败', () async {
-      // 打桩
-      when(apiClient.requestAPI('GET', '/path')).thenAnswer(
-              (_) async => http.Response('Not Found', 404)
+      http.StreamedResponse response = await apiClient.requestAPI(
+          httpMethod: 'GET',
+          apiRoot: 'api.example.com',
+          apiPath: '/failed'
       );
-      // 测试
-      http.Response response = await apiClient.requestAPI('GET', '/path');
       expect(response.statusCode, 404);
-      expect(response.body, 'Not Found');
+      // expect(response.stream, 'Not Found');
     });
   });
 }
