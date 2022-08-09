@@ -32,19 +32,61 @@ class WXCloudRunAPIClient {
     client = RetryClient(client);
   }
 
-  /// 请求服务API
+  /// 请求服务API、
+  ///
+  /// TODO: 增加POST传参
   Future<dynamic> requestAPI({
     required String httpMethod,
     required String apiRoot,
     required String apiPath,
     Map<String, dynamic>? queryParameters
   }) async {
-    http.Request request = http.Request(
-      httpMethod,
-      Uri.https(apiRoot, apiPath, queryParameters),
+    // https://api.dart.dev/stable/2.16.1/dart-core/Uri/Uri.https.html
+    Uri url = Uri.https(apiRoot, apiPath, queryParameters);
+    // https://pub.dev/documentation/http/latest/http/get.html
+    // 目前服务端API都是GET方法
+    // TODO: switch实现httpMethod。
+    Function httpMethodFunc = _parseHttpMethod(httpMethod)!;
+    http.Response response = await httpMethodFunc(
+        url,
+        headers: {
+          // TODO: 暂时只允许json格式。
+          'content-type': 'application/json',
+        }
     );
-    http.StreamedResponse response = await client.send(request);
-    return response;
+    if (response.statusCode == 200){
+      return parseResponse(response);
+    }
+    else{
+      throw Error();
+    }
+  }
+
+  // 处理HTTP方法
+  Function? _parseHttpMethod(String httpMethod){
+    switch (httpMethod){
+      case 'get':
+      case 'GET':
+        return client.get;
+      case 'post':
+      case 'POST':
+        return client.post;
+      case 'put':
+      case 'PUT':
+        return client.put;
+      case 'patch':
+      case 'PATCH':
+        return client.patch;
+      case 'delete':
+      case 'DELETE':
+        return client.delete;
+      case 'head':
+      case 'HEAD':
+        return client.head;
+      default:
+        // TODO: 抛出异常
+        return null;
+    }
   }
 
   /// 处理返回值

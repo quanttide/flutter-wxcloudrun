@@ -1,5 +1,7 @@
 /// Mock工具
 
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 
@@ -9,7 +11,7 @@ Future<http.Response> mockClientHandler(http.Request request) async {
       request.url == Uri.https('api.example.com', '/path')
   ){
     // 200 OK
-    return http.Response('OK', 200);
+    return http.Response(json.encode({'key': 'value'}), 200);
   }
   else if (request.method == 'GET' &&
       request.url == Uri.https('api.example.com', '/cold_start')
